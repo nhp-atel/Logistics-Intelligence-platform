@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: ftr_delivery_predictions
+    description: >
+      Features for delivery time prediction ML model.
+      Contains package attributes, route characteristics, and historical performance.
+    columns:
+      - name: package_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+
+  - name: ftr_customer_segments
+    description: >
+      Features for customer segmentation and churn prediction.
+      Contains RFM-style metrics and behavior patterns.
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+
+  - name: ftr_route_performance
+    description: >
+      Features for route optimization analysis.
+      Contains aggregated route metrics by origin/destination/service type.
+    columns:
+      - name: route_key
+        description: Composite key for route
+        tests:
+          - unique
+          - not_null

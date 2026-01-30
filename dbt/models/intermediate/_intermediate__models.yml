@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_deliveries_enriched
+    description: >
+      Enriched delivery records with calculated metrics and joined dimension data.
+      This is the main fact table preparation model.
+    columns:
+      - name: package_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+
+  - name: int_customer_metrics
+    description: >
+      Aggregated customer metrics for dimension building and feature engineering.
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null

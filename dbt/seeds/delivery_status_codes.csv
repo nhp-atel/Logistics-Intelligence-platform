@@ -1,0 +1,13 @@
+status_code,status_name,status_category,is_terminal,display_order
+delivered,Delivered,completed,true,100
+in_transit,In Transit,active,false,50
+out_for_delivery,Out for Delivery,active,false,75
+picked_up,Picked Up,active,false,25
+label_created,Label Created,pending,false,10
+order_placed,Order Placed,pending,false,5
+exception,Exception,exception,false,60
+weather_delay,Weather Delay,exception,false,61
+address_issue,Address Issue,exception,false,62
+recipient_unavailable,Recipient Unavailable,exception,false,63
+returned,Returned to Sender,completed,true,90
+lost,Lost,completed,true,95

@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  - name: stg_packages
+    description: Cleaned and standardized package records
+    columns:
+      - name: package_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: tracking_number
+        tests:
+          - not_null
+      - name: sender_customer_id
+        tests:
+          - not_null
+      - name: recipient_customer_id
+        tests:
+          - not_null
+      - name: service_type
+        tests:
+          - accepted_values:
+              values: ['GROUND', 'EXPRESS', 'NEXT_DAY', 'FREIGHT']
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['delivered', 'in_transit', 'out_for_delivery', 'exception', 'returned', 'lost']
+      - name: weight_lbs
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 10000
+
+  - name: stg_tracking_events
+    description: Cleaned tracking events with derived fields
+    columns:
+      - name: event_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: package_id
+        tests:
+          - not_null
+      - name: event_type
+        tests:
+          - not_null
+      - name: event_timestamp
+        tests:
+          - not_null
+
+  - name: stg_customers
+    description: Cleaned customer records
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: customer_type
+        tests:
+          - accepted_values:
+              values: ['business', 'residential']
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['bronze', 'silver', 'gold', 'platinum']
+
+  - name: stg_locations
+    description: Cleaned location records
+    columns:
+      - name: location_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: location_type
+        tests:
+          - accepted_values:
+              values: ['hub', 'distribution_center', 'pickup_point', 'customer_address', 'airport', 'ground_hub']
+
+  - name: stg_drivers
+    description: Cleaned driver records
+    columns:
+      - name: driver_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active', 'inactive', 'on_leave']
+
+  - name: stg_vehicles
+    description: Cleaned vehicle records
+    columns:
+      - name: vehicle_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active', 'maintenance', 'retired']

@@ -1,0 +1,57 @@
+name: 'logistics_data_platform'
+version: '1.0.0'
+config-version: 2
+
+profile: 'logistics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  # Date range for incremental models
+  start_date: '2023-01-01'
+  end_date: '2024-12-31'
+
+  # Feature computation windows
+  feature_window_days: 30
+
+models:
+  logistics_data_platform:
+    +materialized: view
+
+    staging:
+      +materialized: view
+      +schema: staging
+      +tags: ['staging', 'daily']
+
+    intermediate:
+      +materialized: ephemeral
+      +tags: ['intermediate']
+
+    marts:
+      +materialized: table
+      +schema: warehouse
+      +tags: ['marts', 'daily']
+
+      core:
+        +tags: ['core', 'dimensional']
+
+      features:
+        +schema: features
+        +tags: ['features', 'ml']
+
+seeds:
+  logistics_data_platform:
+    +schema: seeds
+
+snapshots:
+  logistics_data_platform:
+    +schema: snapshots

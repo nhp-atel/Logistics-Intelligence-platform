@@ -1,0 +1,63 @@
+name: CD - dbt
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dbt/**'
+  workflow_dispatch:
+
+jobs:
+  dbt-run:
+    name: dbt Run
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-bigquery
+
+      - name: Configure GCP credentials
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Install dbt packages
+        working-directory: ./dbt
+        run: dbt deps
+
+      - name: Run dbt
+        working-directory: ./dbt
+        run: |
+          dbt run --profiles-dir . --target prod
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Test dbt
+        working-directory: ./dbt
+        run: |
+          dbt test --profiles-dir . --target prod
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Generate docs
+        working-directory: ./dbt
+        run: |
+          dbt docs generate --profiles-dir . --target prod
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-docs
+          path: dbt/target/

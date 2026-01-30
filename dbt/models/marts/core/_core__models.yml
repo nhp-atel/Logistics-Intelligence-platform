@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: >
+      Customer dimension table with SCD Type 2 support.
+      Contains customer demographics, tier, and aggregated metrics.
+    columns:
+      - name: customer_key
+        description: Surrogate key for the dimension
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Natural key from source system
+        tests:
+          - not_null
+      - name: customer_type
+        tests:
+          - accepted_values:
+              values: ['business', 'residential']
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['bronze', 'silver', 'gold', 'platinum']
+
+  - name: dim_locations
+    description: >
+      Location dimension table for facilities and addresses.
+    columns:
+      - name: location_key
+        description: Surrogate key
+        tests:
+          - unique
+          - not_null
+      - name: location_id
+        description: Natural key
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_drivers
+    description: Driver dimension table
+    columns:
+      - name: driver_key
+        tests:
+          - unique
+          - not_null
+      - name: driver_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_date
+    description: >
+      Date dimension table with fiscal and calendar attributes.
+    columns:
+      - name: date_key
+        description: YYYYMMDD integer key
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_deliveries
+    description: >
+      Fact table at package delivery grain.
+      Contains metrics for each package delivery.
+    columns:
+      - name: package_key
+        description: Surrogate key
+        tests:
+          - unique
+          - not_null
+      - name: package_id
+        description: Natural key
+        tests:
+          - unique
+          - not_null
+      - name: sender_customer_key
+        description: FK to dim_customers
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_key
+              severity: warn
+
+  - name: fact_tracking_events
+    description: >
+      Fact table at tracking event grain.
+      Contains metrics for each package scan/event.
+    columns:
+      - name: event_key
+        tests:
+          - unique
+          - not_null
+      - name: package_id
+        tests:
+          - not_null

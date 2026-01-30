@@ -1,0 +1,71 @@
+{
+  "expectation_suite_name": "tracking_events_suite",
+  "ge_cloud_id": null,
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "min_value": 1,
+        "max_value": 100000000
+      },
+      "meta": {
+        "notes": "Tracking events table should have data"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "event_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "event_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "event_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "package_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "event_type"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "event_timestamp"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "event_type",
+        "value_set": [
+          "ORDER_PLACED", "LABEL_CREATED", "PICKED_UP",
+          "ARRIVED_AT_ORIGIN_HUB", "DEPARTED_ORIGIN_HUB",
+          "IN_TRANSIT", "ARRIVED_AT_DESTINATION_HUB",
+          "OUT_FOR_DELIVERY", "DELIVERED",
+          "WEATHER_DELAY", "ADDRESS_ISSUE", "RECIPIENT_UNAVAILABLE",
+          "CUSTOMS_HOLD", "MECHANICAL_ISSUE", "REROUTED",
+          "RETURN_INITIATED", "RETURNED_TO_SENDER"
+        ]
+      }
+    }
+  ],
+  "data_asset_type": "Dataset",
+  "meta": {
+    "great_expectations_version": "0.18.0"
+  }
+}

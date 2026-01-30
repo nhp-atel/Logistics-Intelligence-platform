@@ -1,0 +1,51 @@
+state_code,state_name,region,timezone
+AL,Alabama,south,America/Chicago
+AK,Alaska,west,America/Anchorage
+AZ,Arizona,west,America/Phoenix
+AR,Arkansas,south,America/Chicago
+CA,California,west,America/Los_Angeles
+CO,Colorado,west,America/Denver
+CT,Connecticut,northeast,America/New_York
+DE,Delaware,south,America/New_York
+FL,Florida,south,America/New_York
+GA,Georgia,south,America/New_York
+HI,Hawaii,west,Pacific/Honolulu
+ID,Idaho,west,America/Boise
+IL,Illinois,midwest,America/Chicago
+IN,Indiana,midwest,America/Indiana/Indianapolis
+IA,Iowa,midwest,America/Chicago
+KS,Kansas,midwest,America/Chicago
+KY,Kentucky,south,America/New_York
+LA,Louisiana,south,America/Chicago
+ME,Maine,northeast,America/New_York
+MD,Maryland,south,America/New_York
+MA,Massachusetts,northeast,America/New_York
+MI,Michigan,midwest,America/Detroit
+MN,Minnesota,midwest,America/Chicago
+MS,Mississippi,south,America/Chicago
+MO,Missouri,midwest,America/Chicago
+MT,Montana,west,America/Denver
+NE,Nebraska,midwest,America/Chicago
+NV,Nevada,west,America/Los_Angeles
+NH,New Hampshire,northeast,America/New_York
+NJ,New Jersey,northeast,America/New_York
+NM,New Mexico,west,America/Denver
+NY,New York,northeast,America/New_York
+NC,North Carolina,south,America/New_York
+ND,North Dakota,midwest,America/Chicago
+OH,Ohio,midwest,America/New_York
+OK,Oklahoma,south,America/Chicago
+OR,Oregon,west,America/Los_Angeles
+PA,Pennsylvania,northeast,America/New_York
+RI,Rhode Island,northeast,America/New_York
+SC,South Carolina,south,America/New_York
+SD,South Dakota,midwest,America/Chicago
+TN,Tennessee,south,America/Chicago
+TX,Texas,south,America/Chicago
+UT,Utah,west,America/Denver
+VT,Vermont,northeast,America/New_York
+VA,Virginia,south,America/New_York
+WA,Washington,west,America/Los_Angeles
+WV,West Virginia,south,America/New_York
+WI,Wisconsin,midwest,America/Chicago
+WY,Wyoming,west,America/Denver

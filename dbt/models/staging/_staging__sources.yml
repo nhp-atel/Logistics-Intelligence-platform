@@ -1,0 +1,97 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw data landing zone from GCS ingestion
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
+    schema: raw
+    tables:
+      - name: packages
+        description: Raw package/shipment records
+        columns:
+          - name: package_id
+            description: Primary key for packages
+            tests:
+              - unique
+              - not_null
+          - name: tracking_number
+            description: Public tracking number
+          - name: sender_customer_id
+            description: Customer who sent the package
+          - name: recipient_customer_id
+            description: Customer receiving the package
+          - name: created_at
+            description: When the package was created in the system
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+        loaded_at_field: _loaded_at
+
+      - name: tracking_events
+        description: Package tracking/scan events
+        columns:
+          - name: event_id
+            description: Primary key for events
+            tests:
+              - unique
+              - not_null
+          - name: package_id
+            description: Foreign key to packages
+          - name: event_timestamp
+            description: When the event occurred
+        freshness:
+          warn_after: {count: 2, period: hour}
+          error_after: {count: 6, period: hour}
+        loaded_at_field: _loaded_at
+
+      - name: customers
+        description: Customer information
+        columns:
+          - name: customer_id
+            description: Primary key for customers
+            tests:
+              - unique
+              - not_null
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+        loaded_at_field: _loaded_at
+
+      - name: locations
+        description: Facilities and addresses
+        columns:
+          - name: location_id
+            description: Primary key for locations
+            tests:
+              - unique
+              - not_null
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+        loaded_at_field: _loaded_at
+
+      - name: drivers
+        description: Driver information
+        columns:
+          - name: driver_id
+            description: Primary key for drivers
+            tests:
+              - unique
+              - not_null
+
+      - name: vehicles
+        description: Fleet/vehicle information
+        columns:
+          - name: vehicle_id
+            description: Primary key for vehicles
+            tests:
+              - unique
+              - not_null
+
+      - name: weather
+        description: Weather data by location and date
+        columns:
+          - name: location_id
+            description: Foreign key to locations
+          - name: date
+            description: Date of weather observation
