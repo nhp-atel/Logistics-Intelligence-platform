@@ -14,7 +14,7 @@ class DeliveryFeatures:
 
     config: FeatureStoreConfig
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.client = bigquery.Client(project=self.config.gcp_project_id)
         self.dataset = self.config.bq_dataset_features
 

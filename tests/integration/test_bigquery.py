@@ -1,7 +1,8 @@
 """Integration tests for BigQuery service."""
 
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 
 class TestBigQueryService:
@@ -17,7 +18,7 @@ class TestBigQueryService:
         return settings
 
     @patch("google.cloud.bigquery.Client")
-    def test_service_initialization(self, mock_client, mock_settings):
+    def test_service_initialization(self, _mock_client, mock_settings):
         """Test service initializes with BigQuery client."""
         from api.services.bigquery_service import BigQueryService
 
@@ -35,11 +36,11 @@ class TestBigQueryService:
 
         # Setup mock
         mock_result = MagicMock()
-        mock_result.__iter__ = lambda self: iter([])
+        mock_result.__iter__ = lambda _self: iter([])
         mock_client.return_value.query.return_value.result.return_value = mock_result
 
         service = BigQueryService(mock_settings)
-        result = await service.get_delivery("PKG000000000001")
+        await service.get_delivery("PKG000000000001")
 
         # Verify query was called
         mock_client.return_value.query.assert_called_once()
@@ -60,11 +61,11 @@ class TestBigQueryService:
         from api.services.bigquery_service import BigQueryService
 
         mock_result = MagicMock()
-        mock_result.__iter__ = lambda self: iter([])
+        mock_result.__iter__ = lambda _self: iter([])
         mock_client.return_value.query.return_value.result.return_value = mock_result
 
         service = BigQueryService(mock_settings)
-        result = await service.get_tracking_events("PKG000000000001")
+        await service.get_tracking_events("PKG000000000001")
 
         call_args = mock_client.return_value.query.call_args
         query = call_args[0][0]
@@ -79,11 +80,11 @@ class TestBigQueryService:
         from api.services.bigquery_service import BigQueryService
 
         mock_result = MagicMock()
-        mock_result.__iter__ = lambda self: iter([])
+        mock_result.__iter__ = lambda _self: iter([])
         mock_client.return_value.query.return_value.result.return_value = mock_result
 
         service = BigQueryService(mock_settings)
-        result = await service.get_customer_features("CUST00000001")
+        await service.get_customer_features("CUST00000001")
 
         call_args = mock_client.return_value.query.call_args
         query = call_args[0][0]

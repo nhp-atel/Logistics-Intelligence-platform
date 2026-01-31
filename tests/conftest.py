@@ -1,7 +1,8 @@
 """Pytest configuration and fixtures."""
 
-import pytest
 from datetime import datetime
+
+import pytest
 
 from data_generation.config import GenerationConfig
 
@@ -14,7 +15,7 @@ def generation_config() -> GenerationConfig:
         num_customers=50,
         num_drivers=10,
         num_vehicles=10,
-        num_locations=20,
+        num_locations=50,
         random_seed=42,
         start_date=datetime(2024, 1, 1),
         end_date=datetime(2024, 12, 31),

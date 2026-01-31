@@ -1,7 +1,5 @@
 """Unit tests for data generators."""
 
-import pytest
-
 from data_generation.config import GenerationConfig
 from data_generation.generators import (
     CustomerGenerator,
@@ -9,7 +7,6 @@ from data_generation.generators import (
     LocationGenerator,
     PackageGenerator,
     TrackingEventGenerator,
-    VehicleGenerator,
 )
 
 
@@ -80,7 +77,7 @@ class TestLocationGenerator:
     def test_generate_includes_hubs(self, generation_config: GenerationConfig):
         """Test that generator creates hub locations."""
         generator = LocationGenerator(generation_config)
-        locations = generator.generate()
+        _locations = generator.generate()  # Required to generate before getting hubs
         hub_locations = generator.get_hub_locations()
 
         assert len(hub_locations) > 0

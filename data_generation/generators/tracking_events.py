@@ -125,7 +125,7 @@ class TrackingEventGenerator:
 
         return events
 
-    def _calculate_event_time_delta(self, event_type: str, event_index: int) -> timedelta:
+    def _calculate_event_time_delta(self, event_type: str, _event_index: int) -> timedelta:
         """Calculate time between events."""
         base_hours = {
             "order_placed": 0,
@@ -159,25 +159,25 @@ class TrackingEventGenerator:
     ) -> str:
         """Determine the location for an event."""
         if event_type in ["order_placed", "label_created"]:
-            return package["origin_location_id"]
+            return str(package["origin_location_id"])
 
         if event_type == "picked_up":
-            return package["origin_location_id"]
+            return str(package["origin_location_id"])
 
         if event_type in ["arrived_at_origin_hub", "departed_origin_hub"]:
             # Select a hub near origin
-            return random.choice(self.hub_location_ids) if self.hub_location_ids else package["origin_location_id"]
+            return str(random.choice(self.hub_location_ids)) if self.hub_location_ids else str(package["origin_location_id"])
 
         if event_type == "in_transit":
             # Could be at any hub
-            return random.choice(self.hub_location_ids) if self.hub_location_ids else previous_location_id
+            return str(random.choice(self.hub_location_ids)) if self.hub_location_ids else previous_location_id
 
         if event_type == "arrived_at_destination_hub":
             # Select a hub near destination
-            return random.choice(self.hub_location_ids) if self.hub_location_ids else package["destination_location_id"]
+            return str(random.choice(self.hub_location_ids)) if self.hub_location_ids else str(package["destination_location_id"])
 
         if event_type in ["out_for_delivery", "delivered"]:
-            return package["destination_location_id"]
+            return str(package["destination_location_id"])
 
         if event_type in EXCEPTION_EVENTS:
             return previous_location_id
@@ -189,7 +189,7 @@ class TrackingEventGenerator:
 
     def _generate_event_notes(self, event_type: str) -> str | None:
         """Generate notes for certain event types."""
-        notes_map = {
+        notes_map: dict[str, list[str | None]] = {
             "weather_delay": [
                 "Delayed due to severe weather conditions",
                 "Winter storm causing delays in area",
@@ -226,7 +226,8 @@ class TrackingEventGenerator:
         }
 
         if event_type in notes_map:
-            return random.choice(notes_map[event_type])
+            choice = random.choice(notes_map[event_type])
+            return str(choice) if choice is not None else None
         return None
 
     def _get_location_lat(self, location_id: str) -> float | None:

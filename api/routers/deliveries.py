@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Security
 from fastapi.security import APIKeyHeader
 
 from api.config import Settings, get_settings
-from api.models.delivery import DeliveryResponse, DeliveryListResponse, DeliverySummary
+from api.models.delivery import DeliveryListResponse, DeliveryResponse, DeliverySummary
 from api.services.bigquery_service import BigQueryService
 
 router = APIRouter()
@@ -29,7 +29,7 @@ async def verify_api_key(
 @router.get("/deliveries/{package_id}", response_model=DeliveryResponse)
 async def get_delivery(
     package_id: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> DeliveryResponse:
     """Get delivery information by package ID."""
@@ -52,7 +52,7 @@ async def list_deliveries(
     end_date: Annotated[date | None, Query(description="End date for created_at")] = None,
     limit: Annotated[int, Query(ge=1, le=1000, description="Maximum results")] = 100,
     offset: Annotated[int, Query(ge=0, description="Offset for pagination")] = 0,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> DeliveryListResponse:
     """List deliveries with optional filters."""
@@ -80,7 +80,7 @@ async def list_deliveries(
 async def get_delivery_summary(
     start_date: Annotated[date | None, Query(description="Start date")] = None,
     end_date: Annotated[date | None, Query(description="End date")] = None,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> DeliverySummary:
     """Get aggregate delivery statistics."""

@@ -1,6 +1,5 @@
 """Package/shipment data generator."""
 
-import math
 import random
 from datetime import datetime, timedelta
 from typing import Any
@@ -91,7 +90,7 @@ class PackageGenerator:
         return weights
 
     def _generate_package(
-        self, package_id: str, created_date: datetime, index: int
+        self, package_id: str, created_date: datetime, _index: int
     ) -> dict[str, Any]:
         """Generate a single package record."""
         # Select sender and recipient (different customers)
@@ -100,7 +99,7 @@ class PackageGenerator:
 
         # Select origin and destination locations
         origin_id = random.choice(self.location_ids)
-        destination_id = random.choice([l for l in self.location_ids if l != origin_id])
+        destination_id = random.choice([loc for loc in self.location_ids if loc != origin_id])
 
         # Determine service type
         service_type = self._select_service_type()
@@ -265,7 +264,7 @@ class PackageGenerator:
         # Apply service multiplier
         multiplier = SERVICE_TYPES[service_type]["cost_multiplier"]
 
-        return (base_rate + weight_cost * (billable_weight / weight)) * multiplier
+        return float((base_rate + weight_cost * (billable_weight / weight)) * multiplier)
 
     def _generate_tracking_number(self) -> str:
         """Generate a realistic tracking number."""

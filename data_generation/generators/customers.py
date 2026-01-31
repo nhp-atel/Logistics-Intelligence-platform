@@ -1,12 +1,12 @@
 """Customer data generator."""
 
 import random
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Any
 
 from faker import Faker
 
-from data_generation.config import CUSTOMER_TIERS, GenerationConfig, US_STATES
+from data_generation.config import US_STATES, GenerationConfig
 
 
 class CustomerGenerator:
@@ -33,7 +33,7 @@ class CustomerGenerator:
         return customers
 
     def _generate_customer(
-        self, customer_id: str, is_business: bool, index: int
+        self, customer_id: str, is_business: bool, _index: int
     ) -> dict[str, Any]:
         """Generate a single customer record."""
         # Select state based on population weights

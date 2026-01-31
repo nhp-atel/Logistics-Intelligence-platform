@@ -14,7 +14,7 @@ class CustomerFeatures:
 
     config: FeatureStoreConfig
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.client = bigquery.Client(project=self.config.gcp_project_id)
         self.dataset = self.config.bq_dataset_features
 
@@ -86,7 +86,7 @@ class CustomerFeatures:
         results = self.client.query(query, job_config=job_config).result()
         return [dict(row) for row in results]
 
-    def compute_features(self, lookback_days: int = 30) -> None:
+    def compute_features(self, _lookback_days: int = 30) -> None:
         """Recompute customer features."""
         query = f"""
             CREATE OR REPLACE TABLE `{self.config.gcp_project_id}.{self.dataset}.ftr_customer_segments` AS

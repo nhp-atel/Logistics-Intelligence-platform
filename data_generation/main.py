@@ -3,6 +3,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
+from typing import Literal, cast
 
 import pandas as pd
 import typer
@@ -81,7 +82,7 @@ def generate(
         num_vehicles=vehicles,
         num_locations=locations,
         output_dir=output_dir,
-        output_format=format,
+        output_format=cast(Literal["csv", "parquet", "json"], format),
         random_seed=seed,
         start_date=start,
         end_date=end,
@@ -197,7 +198,7 @@ def upload(
     prefix: str = typer.Option("raw", "--prefix", "-p", help="GCS path prefix"),
 ) -> None:
     """Upload generated data to Google Cloud Storage."""
-    from google.cloud import storage
+    from google.cloud import storage  # type: ignore[attr-defined]
 
     console.print(f"[bold blue]Uploading data to gs://{bucket}/{prefix}/[/bold blue]")
 

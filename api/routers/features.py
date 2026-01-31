@@ -25,7 +25,7 @@ async def verify_api_key(
 @router.get("/features/customer/{customer_id}")
 async def get_customer_features(
     customer_id: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> dict:
     """Get ML features for a customer."""
@@ -46,7 +46,7 @@ async def get_route_features(
     origin_region: str,
     destination_region: str,
     service_type: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> dict:
     """Get ML features for a route."""
@@ -67,7 +67,7 @@ async def get_route_features(
 @router.get("/features/delivery/{package_id}")
 async def get_delivery_features(
     package_id: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> dict:
     """Get ML features for delivery prediction."""

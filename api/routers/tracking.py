@@ -26,7 +26,7 @@ async def verify_api_key(
 @router.get("/tracking/{package_id}", response_model=TrackingHistoryResponse)
 async def get_tracking_history(
     package_id: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> TrackingHistoryResponse:
     """Get tracking history for a package."""
@@ -49,7 +49,7 @@ async def get_tracking_history(
 @router.get("/tracking/{package_id}/latest", response_model=TrackingEventResponse)
 async def get_latest_tracking_event(
     package_id: str,
-    api_key: str = Depends(verify_api_key),
+    _api_key: str = Depends(verify_api_key),
     settings: Settings = Depends(get_settings),
 ) -> TrackingEventResponse:
     """Get the latest tracking event for a package."""

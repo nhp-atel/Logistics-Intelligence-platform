@@ -32,7 +32,7 @@ class FeatureDefinition:
 class FeatureRegistry:
     """Registry for managing feature definitions."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._features: dict[str, FeatureDefinition] = {}
         self._register_default_features()
 
@@ -193,7 +193,7 @@ class FeatureRegistry:
 
     def list_entities(self) -> list[str]:
         """List all entities with registered features."""
-        return list(set(f.entity for f in self._features.values()))
+        return list({f.entity for f in self._features.values()})
 
     def get_feature_names(self, entity: str) -> list[str]:
         """Get feature names for an entity."""

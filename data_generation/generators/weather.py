@@ -1,12 +1,12 @@
 """Weather data generator and API integration."""
 
 import random
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from typing import Any
 
 import httpx
 
-from data_generation.config import GenerationConfig, MAJOR_CITIES
+from data_generation.config import GenerationConfig
 
 
 class WeatherGenerator:
@@ -89,7 +89,7 @@ class WeatherGenerator:
         return weather_records
 
     def _generate_weather_for_location(
-        self, location: dict[str, Any], date: datetime.date
+        self, location: dict[str, Any], date: date
     ) -> dict[str, Any]:
         """Generate weather for a specific location and date."""
         region = location.get("region", "midwest")
@@ -157,7 +157,7 @@ class WeatherGenerator:
             "expected_delay_hours": condition_info["delay_hours"],
         }
 
-    def _get_season(self, date: datetime.date) -> str:
+    def _get_season(self, date: date) -> str:
         """Determine season from date."""
         month = date.month
         if month in [12, 1, 2]:
@@ -208,11 +208,11 @@ class WeatherGenerator:
         return round(visibility_map.get(condition, 10.0), 1)
 
     async def fetch_real_weather(
-        self, latitude: float, longitude: float, date: datetime.date
+        self, latitude: float, longitude: float, date: date
     ) -> dict[str, Any] | None:
         """Fetch real weather data from Open-Meteo API (free, no API key required)."""
         url = "https://api.open-meteo.com/v1/forecast"
-        params = {
+        params: dict[str, str | float] = {
             "latitude": latitude,
             "longitude": longitude,
             "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode",

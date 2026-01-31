@@ -6,7 +6,6 @@ from typing import Any
 from faker import Faker
 
 from data_generation.config import (
-    LOCATION_TYPES,
     MAJOR_CITIES,
     STATE_TO_REGION,
     US_STATES,

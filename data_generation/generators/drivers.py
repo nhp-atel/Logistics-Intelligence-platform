@@ -1,7 +1,7 @@
 """Driver and vehicle data generators."""
 
 import random
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Any
 
 from faker import Faker
@@ -30,7 +30,7 @@ class DriverGenerator:
 
         return drivers
 
-    def _generate_driver(self, driver_id: str, index: int) -> dict[str, Any]:
+    def _generate_driver(self, driver_id: str, _index: int) -> dict[str, Any]:
         """Generate a single driver record."""
         # Generate hire date within a reasonable range (up to 10 years ago)
         max_tenure_days = 365 * 10
@@ -104,7 +104,7 @@ class VehicleGenerator:
 
         return vehicles
 
-    def _generate_vehicle(self, vehicle_id: str, index: int) -> dict[str, Any]:
+    def _generate_vehicle(self, vehicle_id: str, _index: int) -> dict[str, Any]:
         """Generate a single vehicle record."""
         # Select vehicle type based on weights
         types = [t[0] for t in self.VEHICLE_TYPES]
